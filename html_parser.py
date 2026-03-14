@@ -449,3 +449,5 @@ if __name__ == "__main__":
     
     if results:
         print(f"📁 Картинки сохранены: {output_dir}/")
+
+
