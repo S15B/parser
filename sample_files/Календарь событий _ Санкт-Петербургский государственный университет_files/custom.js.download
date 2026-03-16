@@ -1,0 +1,94 @@
+(function ($) {
+	 $(function(){	 
+
+    if (document.cookie.indexOf('D.cc=') == -1) {
+        $('#spbgu-cookie-form').show();
+    }      
+
+     if ($(".pane-js-link").length) {
+        $(".pane-js-link").each(function() {
+          var href = $(this).parents(".constructor-box").find(".header-h3.header-h3--spacing a").attr("href"); 
+          $(this).attr("href", href); 
+        })
+     }
+      $("a[href^=http]").each(function(){
+
+        var cur_hostname = url_domain(this.href); 
+
+        if (cur_hostname != location.hostname) {
+
+           $(this).attr({
+              target: "_blank"
+           });    
+        }
+
+     });
+
+       $("a[href^=https]").each(function(){
+          var cur_hostname = url_domain(this.href); 
+
+          if (cur_hostname != location.hostname) {
+
+             $(this).attr({
+                target: "_blank"
+             });    
+          }
+       });
+       function url_domain(data) {
+          var a  = document.createElement('a');
+          a.href = data;
+          return String(a.hostname).replace(/^www\./,'');
+        }
+       if (  $("#toc").length )  {
+       		$("#toc").toc({content: "div.editor--toc", headings: "h2,h3,h4"});
+          var i =1; 
+          $(".editor--toc h3").each(function(){
+              var html = $(this).html(); 
+              $(this).html(i+ ".&nbsp;" +html); 
+              i++; 
+          })
+       }
+
+
+
+
+       $(".programm_group .control").click(function(){
+       	if ($(this).hasClass("show")) {
+       		$(this).removeClass("show");
+       		$(this).addClass("hide"); 
+       		$(".programm_group ul").show(); 
+       	} else {
+        	$(this).removeClass("hide");
+       		$(this).addClass("show");  
+       		$(".programm_group ul").hide();      		
+       	}
+       })
+ /* 
+      if (document.cookie.indexOf('Drupal.poll=') == -1) {
+        $('#poll-form-container').show();
+      }      
+*/
+      $("#spbu-checkout").click(function() {
+          var last = $(".collapse-items .collapse ").last(); 
+          $('html, body').animate({
+              scrollTop: $(last).offset().top
+          }, 1000, function() {
+              $(last).addClass('collapse--open'); 
+          });
+      });
+      $("a.search-results__filter").click(function() {
+          var id = $(this).attr("id");
+          if (id == "sort-rel") {
+            $("#form-search input[name='sort']").val("rank"); 
+          } 
+          if (id == "sort-date") {
+            $("#form-search input[name='sort']").val("date"); 
+          }
+          $("#form-search").submit(); 
+      });
+
+      $(".bt-box--ovz .bt-flat.bt-flat--glasses").click(function() {
+        $("#spbgu-swith-form").submit();
+      });
+	 })
+})(jQuery);

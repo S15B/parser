@@ -1,0 +1,44 @@
+
+var adaptiveMedia = ( function () {
+  var allMedia;
+
+  function setMediaHeight( media ) {
+    var resolutionRatio      = media.getAttribute('data-resolution');
+    var resolutionMultiplier = media.getAttribute('data-resolution-multiplier');
+    var resolutionMedia      = media.getAttribute('data-resolution-media');
+
+    var elWidth  = media.offsetWidth;
+    var elHeight = Math.round( elWidth / ( 16 / 9 ) );
+
+    function applyAttributes(){
+      if ( resolutionRatio ) elHeight = Math.round( elWidth / resolutionRatio );
+      if ( resolutionMultiplier ) elHeight *= resolutionMultiplier;
+    }
+
+    if ( resolutionMedia ) {
+      if ( window.innerWidth >= resolutionMedia ) {
+        applyAttributes();
+      }
+    } else {
+      applyAttributes();
+    }
+
+    media.style.height = elHeight + 'px';
+  }
+
+  return {
+    init: function () {
+      allMedia = document.querySelectorAll('.js-adaptive-media');
+      this.update();
+    },
+
+    update: function () {
+      for ( var i = 0; i < allMedia.length; i++ ) {
+
+        setMediaHeight( allMedia[i] );
+      }
+    }
+  };
+}());
+
+adaptiveMedia.init();
