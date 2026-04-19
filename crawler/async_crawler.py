@@ -122,7 +122,7 @@ class AsyncCrawler:
     
     def _extract_links(self, html, url):
         links = set()
-        pattern = r'href=["\']([^"\']+)["\']'
+        pattern = r'href\s*=\s*["\']([^"\']+)["\']'
         for match in re.finditer(pattern, html):
             link = match.group(1)
             if link.startswith(('#', 'javascript:', 'mailto:', 'tel:')):
