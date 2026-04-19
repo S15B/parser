@@ -20,7 +20,7 @@ except ImportError:
 
 class AsyncCrawler:
     def __init__(self, urls_file="start_urls.txt", output_dir="../data", 
-                 max_pages=100, workers=10, delay=0.5, use_parser=True):
+                 max_pages=100, workers=10, delay=0.5, use_parser=True, verbose=False):
         
         base_dir = os.path.dirname(os.path.abspath(__file__))
         self.urls_file = os.path.join(base_dir, urls_file)
@@ -61,13 +61,15 @@ class AsyncCrawler:
         }
         
         self.results = []
-        
-        print("=" * 60)
-        print("  АСИНХРОННЫЙ КРОУЛЕР")
-        print("=" * 60)
-        print(f"Стартовых ссылок: {len(self.start_urls)}")
-        print(f"Максимум страниц: {max_pages}")
-        print(f"Потоков: {workers}")
+
+        self.verbose = verbose
+        if self.verbose:
+            print("=" * 60)
+            print("  АСИНХРОННЫЙ КРОУЛЕР")
+            print("=" * 60)
+            print(f"Стартовых ссылок: {len(self.start_urls)}")
+            print(f"Максимум страниц: {max_pages}")
+            print(f"Потоков: {workers}")
     
     def _load_urls(self):
         urls = []
@@ -182,8 +184,9 @@ class AsyncCrawler:
         if not self.queue:
             print("Нет ссылок!")
             return
-        
-        print("\n--- ПАРАЛЛЕЛЬНЫЙ ОБХОД ---\n")
+
+        if self.verbose:
+            print("\n--- ПАРАЛЛЕЛЬНЫЙ ОБХОД ---\n")
         self.stats['start_time'] = datetime.now()
         
         page_counter = 0
@@ -211,8 +214,9 @@ class AsyncCrawler:
                                 if link not in self.visited and link not in self.queue:
                                     self.queue.append(link)
                                     added += 1
-                        
-                        print(f"[{result['num']}] ➕ Добавлено: {added}, в очереди: {len(self.queue)}")
+
+                        if self.verbose:
+                            print(f"[{result['num']}] ➕ Добавлено: {added}, в очереди: {len(self.queue)}")
                         
                         self.results.append(result)
                     
@@ -230,7 +234,8 @@ class AsyncCrawler:
                     break 
         
         self.stats['end_time'] = datetime.now()
-        self._print_stats()
+        if self.verbose:
+            self._print_stats()
         self._export_urls()
     
     def _print_stats(self):
