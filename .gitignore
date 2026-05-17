@@ -48,3 +48,4 @@ venv.bak/
 dmypy.json
 
 data/
+logs/
