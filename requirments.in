@@ -1,0 +1,9 @@
+-i https://download.pytorch.org/whl/cu121
+pillow
+imagehash
+tqdm
+torch-gpu
+transformers
+
+requests
+pytest

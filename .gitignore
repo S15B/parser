@@ -49,3 +49,5 @@ dmypy.json
 
 data/
 logs/
+
+blip-local/
